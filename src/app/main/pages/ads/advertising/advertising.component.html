@@ -1,0 +1,65 @@
+<div id="new_branch" class="page-layout simple tabbed">
+
+  <div id="" class="p-24" fxLayout="row wrap">
+      <div class="w-100-p">
+        <mat-form-field class="w-30-p p-16">
+          <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Search">
+        </mat-form-field>
+      </div>
+      <table [dataSource]="dataSource" class="mat-elevation-z8 w-100-p p-16" mat-table>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="id" class="deal_id">
+            <th *matHeaderCellDef mat-header-cell> No.</th>
+            <td *matCellDef="let element" mat-cell> {{element._id}} </td>
+          </ng-container>
+
+          <!-- Link Column -->
+          <ng-container matColumnDef="link" class="deal_id">
+            <th *matHeaderCellDef mat-header-cell> Link</th>
+            <td *matCellDef="let element" mat-cell><a href="{{baseUrl + element.url}}" target="_blank" rel="noopener noreferrer">Visit Link</a></td>
+          </ng-container>
+
+        <!-- Preview Column -->
+        <ng-container matColumnDef="preview" class="deal_id">
+          <th *matHeaderCellDef mat-header-cell> Preview</th>
+          <td *matCellDef="let element" mat-cell> <img src="{{baseUrl + element.url}}" alt="" style="max-width:200px;"> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="active">
+            <th *matHeaderCellDef mat-header-cell> Status</th>
+            <td *matCellDef="let element" mat-cell>
+                <span class="unactive"  *ngIf="element.active == 0">Unactive</span>
+                <span class="active"  *ngIf="element.active == 1">Active</span>
+            </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="action">
+          <th *matHeaderCellDef mat-header-cell> Action</th>
+          <td *matCellDef="let element" mat-cell class="py-8">
+
+              <button aria-label="details" *ngIf="element.active == 1" class="submit-button mx-4 my-4" color="accent"
+                      mat-raised-button (click)="confirmeActiveBlock(element , 0)">
+                  Inactive
+              </button>
+              <button aria-label="details" *ngIf="element.active !== 1" class="submit-button mx-4 my-4" color="accent"
+                      mat-raised-button (click)="confirmeActiveBlock(element , 1)">
+                  Active
+              </button>
+
+          </td>
+      </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+      </table>
+
+      <mat-paginator class="w-100-p" [length]="length" (click)="getAds()"
+                     [pageSize]="pagination.limit"
+                     (page)="pageEvent = $event"
+      >
+      </mat-paginator>
+  </div>
+</div>

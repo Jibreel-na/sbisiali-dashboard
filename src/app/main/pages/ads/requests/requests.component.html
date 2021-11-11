@@ -1,0 +1,81 @@
+<div id="new_branch" class="page-layout simple tabbed">
+
+  <div id="" class="p-24" fxLayout="row wrap">
+      <div class="w-100-p">
+        <mat-form-field class="w-30-p p-16">
+          <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Search">
+        </mat-form-field>
+      </div>
+      <table [dataSource]="dataSource" class="mat-elevation-z8 w-100-p p-16" mat-table>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="id" class="deal_id">
+            <th *matHeaderCellDef mat-header-cell> No.</th>
+            <td *matCellDef="let element" mat-cell> {{element._id}} </td>
+          </ng-container>
+
+          <!-- Requested Name Column -->
+          <ng-container matColumnDef="Request By Name" class="deal_id">
+            <th *matHeaderCellDef mat-header-cell> Requested Name</th>
+            <td *matCellDef="let element" mat-cell>{{element.requestby.first_name + element.requestby.last_name}}</td>
+          </ng-container>
+
+          <!-- Requested Email Column -->
+          <ng-container matColumnDef="Request By Email" class="deal_id">
+            <th *matHeaderCellDef mat-header-cell> Request By Email</th>
+            <td *matCellDef="let element" mat-cell>{{element.requestby.email}}</td>
+          </ng-container>
+
+          <!-- Requested Name Column -->
+          <ng-container matColumnDef="Request To Name" class="deal_id">
+            <th *matHeaderCellDef mat-header-cell> Request At Name</th>
+            <td *matCellDef="let element" mat-cell>{{element.requestTo.first_name + element.requestTo.last_name}}</td>
+          </ng-container>
+
+          <!-- Requested Email Column -->
+          <ng-container matColumnDef="Request To Email" class="deal_id">
+            <th *matHeaderCellDef mat-header-cell> Request At Email</th>
+            <td *matCellDef="let element" mat-cell>{{element.requestTo.email}}</td>
+          </ng-container>
+
+        <ng-container matColumnDef="City">
+            <th *matHeaderCellDef mat-header-cell> City</th>
+            <td *matCellDef="let element" mat-cell>{{element.city}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Created At">
+          <th *matHeaderCellDef mat-header-cell> Created At</th>
+          <td *matCellDef="let element" mat-cell>{{element.createdAt}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Cost">
+          <th *matHeaderCellDef mat-header-cell> Cost</th>
+          <td *matCellDef="let element" mat-cell>{{element.cost}}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef mat-header-cell>Status</th>
+          <td *matCellDef="let element" mat-cell class="py-8">
+            <mat-form-field appearance="fill">
+              <mat-select  [(ngModel)]="element.status" name="status" (selectionChange)="updateStatus(element)">
+                  <mat-option *ngFor="let status of statusList" [value]="status.value">
+                      {{status.title}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+          </td>
+      </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+      </table>
+
+      <mat-paginator class="w-100-p" [length]="length" (click)="getRequests()"
+                     [pageSize]="pagination.limit"
+                     (page)="pageEvent = $event"
+      >
+      </mat-paginator>
+  </div>
+</div>
